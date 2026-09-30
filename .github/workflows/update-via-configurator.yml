@@ -1,0 +1,22 @@
+name: Update VIA Configurator
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "v3/**"
+  workflow_dispatch:
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger VIA configurator rebuild
+        env:
+          GH_TOKEN: ${{ secrets.VIA_APP_DISPATCH_TOKEN }}
+        run: |
+          gh api \
+            --method POST \
+            repos/freather-keyspensory/via-app-code/dispatches \
+            -f event_type='definition_update'
